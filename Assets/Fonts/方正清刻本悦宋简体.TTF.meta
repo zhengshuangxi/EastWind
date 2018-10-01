@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 2a9c3f10b2b014c43a291129a6fa4706
+timeCreated: 1511589082
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: FZQingKeBenYueSongS-R-GB
+  fontNames:
+  - FZQingKeBenYueSongS-R-GB
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

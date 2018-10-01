@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 2cde129f9661850478c3e49b50c082d9
+timeCreated: 1511589082
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: TitilliumText14L
+  fontNames:
+  - TitilliumText14L
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

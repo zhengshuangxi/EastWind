@@ -1,0 +1,51 @@
+1,Good evening| kids. Here is the menu.,晚上好，小朋友。请看菜单。,ask1,,Welcome
+2,What would you like for your starter?,头盘想吃什么？,ask2,,Ask
+3,What would you like for your Main course?,主菜想来点什么？,ask3,,Ask
+4,Which steak do you like?,你想要哪种肉排？,ask4,,Ask
+5,How it's done?,几分熟？,ask5,,Ask
+6,Would you like something to drink?,想喝点什么？,ask6,,Ask
+7,Do you want some dessert?,需要来些甜点么？,ask7,,Ask
+8,Alright. One moment| please.,好的，请稍等。,ask8,,OK
+9,OK!,好的！,,,
+10,I'd like cream of mushroom soup.,我要奶油蘑菇汤。,,Cream of mushroom soup,
+11,I'd like Italian vegetable soup.,我要意大利蔬菜汤。,,Italian vegetable soup,
+12,I want to eat fruit salad.,我要水果沙拉。,,Fruit salad,
+13,I want to eat prawns.,我想要大虾。,,Prawns,
+14,I'd like a steak.,我想要肉排。,,Steak,
+15,I'd like a burger.,我想要汉堡。,,Burger,
+16,I'd like the pizza.,我想要披萨。,,Pizza,
+17,Beef steak.,牛排。,,Beef steak,
+18,Chicken steak.,鸡扒。,,Chicken steak,
+19,Fish steak.,鱼排。,,Fish steak,
+20,Pork steak.,猪扒。,,Pork steak,
+21,Medium.,七分熟。,,,
+22,Well done.,全熟。,,,
+23,Rare.,半熟。,,,
+24,Lemon juice.,柠檬汁。,,Lemon juice,
+25,Latte.,拿铁咖啡。,,Latte,
+26,Pudding.,布丁。,,Pudding,
+27,Cake.,蛋糕。,,Cake,
+28,Ice cream.,冰激凌。,,Ice Cream,
+29,Look! so much fruit!,看！好多水果。,,,
+30,What's this?,它们用英语怎么说呢？,howtosay,,
+31,An apple.,一个苹果。,,Apple,
+32,Apples.,很多苹果。,,Apples,
+33,An orange.,一个橙子。,,Orange,
+34,Oranges.,很多橙子。,,Oranges,
+35,A banana.,一个香蕉。,,Banana,
+36,Bananas.,很多香蕉。,,Bananas,
+37,A peach.,一个桃子。,,Peach,
+38,Peaches.,很多桃子。,,Peaches,
+39,Do you like peach?,你喜欢吃桃子吗？,likepeach,,
+40,Yes.,是的。,,,
+41,No.,不是。,,,
+42,So| may I have some peaches?,那我可以吃桃子吗？,havesomepeaches,,
+43,En... But may I have some peaches?,但我可以吃桃子吗？,buthavesomepeaches,,
+44,Of course! How many peaches do you want little dragon?,当然啦！小龙你要几个？,,,
+45,Six| please.,6个。,six,,six
+46,Hello.,你好！,,,
+47,Can I help you?,需要帮助吗？,helpyou,,CanIHelpU
+48,How much are the peaches?,桃子多少钱？,,,
+49,30 yuan.,30块。,price,,30yuan
+50,Here is the money!,给你钱！,,,money
+51,Here are the peaches!,给你桃子！,hereuare,,HereUAre
