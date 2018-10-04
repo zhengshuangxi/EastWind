@@ -30,6 +30,9 @@
 /** 蓝牙mac地址，作为识别外部蓝牙设备的唯一标识  */
 @property (nonatomic, copy) NSString *bleMacAdress;
 
+/** 当前绑定蓝牙类型 */
+@property (nonatomic, assign) PVRBLEPeripheralType currentBindBleType;
+
 /** 当前链接蓝牙类型 */
 @property (nonatomic, assign) PVRBLEPeripheralType currentConnectBleType;
 

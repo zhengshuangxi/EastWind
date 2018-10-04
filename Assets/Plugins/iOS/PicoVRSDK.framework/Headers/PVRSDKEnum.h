@@ -100,7 +100,7 @@ typedef NS_ENUM(NSInteger, PVRLensType) {
      */
     PVR_LENS_MOJING_3 = 6,
     /**
-     *  暴风魔镜3
+     *  FALCON
      */
     PVR_LENS_FALCON = 7,
     /**

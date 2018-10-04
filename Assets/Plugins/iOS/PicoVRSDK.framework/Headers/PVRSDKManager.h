@@ -12,6 +12,7 @@
 #import <GLKit/GLKit.h>
 #import "PVRSingleton.h"
 #import "PVRGLNativeRender.h"
+#import <CoreMotion/CoreMotion.h>
 
 @class UnityAppController;
 @class PVRSDKSettingManager;
@@ -210,4 +211,13 @@ singleton_interface(PVRSDKManager)
 
 - (NSArray *)getLark2HandleMessage;
 
+
+/** 获取sensor acc 数据 */
+- (CMAcceleration)accDate;
+
+/** 获取sensor gyro 数据 */
+- (CMRotationRate)gyroDate;
+
+/** 获取sensor state 数据 */
+- (NSArray *)getSensorState;
 @end

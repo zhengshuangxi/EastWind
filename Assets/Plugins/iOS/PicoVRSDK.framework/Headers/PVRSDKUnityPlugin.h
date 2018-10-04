@@ -66,6 +66,8 @@ extern "C"{
     
     int PVR_ScanBLEDevice();
     
+    int PVR_ScanBLEPeripheral(int bleType);
+    
     #ifdef UNITY_PROJECT
     void SpatializerUnlock();
     #endif
@@ -82,6 +84,11 @@ extern "C"{
     
     /** 20170308重构新接口 */
     void UnityRenderEventIOS(int eventID, int textID); //GL事件
+    
+    /** 20170308重构新接口    aili*/
+//    void UnityRenderEvent(int eventID, int textID); //GL事件
+    void Pvr_SetCurrentHMDType(char *hmd);
+    char * Pvr_GetSupportHMDTypes();
 
     //Sensor
     int Pvr_Init(int mainsensorindex = -1); // init sensor
@@ -90,10 +97,13 @@ extern "C"{
     int Pvr_ResetSensor(int index); //Reset sensor
 
     // 获取sensor数据
+    //    int Pvr_GetSensorState(int index, float &x, float &y, float &z, float &w);
+    //    int Pvr_GetMainSensorState(float &x, float &y, float &z, float &w, float &fov, int &viewNumber);
+    
     int Pvr_GetSensorState(int index, float &x, float &y, float &z, float &w, float &px, float &py, float &pz);
     int Pvr_GetMainSensorState(float &x, float &y, float &z, float &w, float &px, float &py, float &pz, float &fov, int &viewNumber);
-
-    int Pvr_GetPsensorState(); // 获取Psensor 0 接近 1 远离状态
+    
+    int Pvr_GetPsensorState(int &psensorStatus); // 获取Psensor 0 接近 1 远离状态
     int Pvr_GetSensorAcceleration(int index, float &x, float &y, float &z); // 预留
     int Pvr_GetSensorGyroscope(int index, float &x, float &y, float &z); // 预留
     int Pvr_GetSensorMagnet(int index, float &x, float &y, float &z); // 预留
@@ -101,12 +111,9 @@ extern "C"{
     //Render
     int Pvr_SetPupillaryPoint(bool enable); // 预留
     int Pvr_ChangeHMDType(int HMDType); // Jay Pico1 /Pico1s /Pico2 /Pico NEO
-    char * Pvr_GetSupportHMDTypes(); // Jay Pico1 /Pico1s /Pico2 /Pico NEO
-    void Pvr_SetCurrentHMDType(char *hmdtype);
-    
-  //  int Pvr_SetRatio(float midH, float midV); //动态调整lark屏幕
-    int Pvr_SetRatioIOS(float midH, float midV); //动态调整lark屏幕
+    int Pvr_SetRatio(float midH, float midV); //动态调整lark屏幕
     int PVR_SetRatio(float midH, float midV); //动态调整lark屏幕
+    int Pvr_SetRatioIOS(float midH, float midV); //动态调整lark屏幕
 
     //获取配置时返回值 // 0 读取配置文件成功，1 读取配置文件失败，2 没有此项目配置
     int Pvr_GetIntConfig(int configsenum, int &res);   //获取int配置数据
@@ -114,6 +121,18 @@ extern "C"{
    
     //System
     char * Pvr_GetSDKVersion();// 底层SDK vesion
+    
+    //-------For Arm Model------//
+    //hand: 0-right, 1-left; gazeType:0-Never, 1-DuringMotion, 2-Always;
+    void Pvr_SetArmModelParameters(int hand, int gazeType, float elbowHeight, float elbowDepth, float pointerTiltAngle);
+    void Pvr_CalcArmModelParameters(float* headOrientation, float* controllerOrientation, float* gyro);
+    void Pvr_GetPointerPose(float* rotation, float* position);
+    void Pvr_GetElbowPose(float* rotation, float* position);
+    void Pvr_GetWristPose(float* rotation, float* position);
+    void Pvr_GetShoulderPose(float* rotation, float* position);
+    
+    void getHbAngularVelocity(float* gyro);
+    void getHbAcceleration(float* acc);
 }
 
 #endif /* PVRSDKUnityPlugin_h */
