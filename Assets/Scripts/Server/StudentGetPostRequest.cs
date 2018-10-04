@@ -147,7 +147,7 @@ public class StudentGetPostRequest : MonoBehaviour {
 
     public IEnumerator KeyboardLogin(string userName, string password, Action<int> loginResult)
     {
-        if (userName == "test" && password == "test")
+        if (userName == "1" && password == "1")
         {
             loginResult(0);
         }
