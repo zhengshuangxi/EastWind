@@ -71,7 +71,7 @@ public class ClientSocket
                 int receiveLength = clientSocket.Receive(result);
                 ByteBuffer buffer = new ByteBuffer(result);
                 string data = buffer.ReadString();
-                Debug.Log("服务器返回数据：" + data);
+                //Debug.Log("服务器返回数据：" + data);
                 if (receiveMsg != null)
                 {
                     receiveMsg(data);
@@ -96,7 +96,7 @@ public class ClientSocket
 
             ByteBuffer buffer = new ByteBuffer();
             buffer.WriteString(data);
-            Debug.Log("SendMessage：" + data);
+            //Debug.Log("SendMessage：" + data);
             clientSocket.Send(WriteMessage(buffer.ToBytes()));
         }
         catch

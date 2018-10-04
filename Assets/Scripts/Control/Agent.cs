@@ -100,7 +100,7 @@ public class Agent : Singleton<MonoBehaviour>
 
     public void StartEvaluator(Action<string> evaluatorResult, string text)
     {
-        //Debug.Log("StartEvaluator:" + DateTime.Now.ToLongTimeString() + text);
+        Debug.Log("StartEvaluator:" + DateTime.Now.ToLongTimeString() + text);
         this.evaluatorResult = evaluatorResult;
 #if Release
         if (instance != null)
@@ -150,6 +150,7 @@ public class Agent : Singleton<MonoBehaviour>
 
     void EvaluatorResult(string result)
     {
+        Debug.Log("EvaluatorResult");
         if (evaluatorResult != null)
             evaluatorResult(result);
     }

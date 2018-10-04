@@ -85,6 +85,7 @@ public class Restaurant : MonoBehaviour
 
     IEnumerator DialogueTwo()
     {
+        Debug.LogError("DialogueTwo()");
         yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueTwo));
     }
 
@@ -114,10 +115,13 @@ public class Restaurant : MonoBehaviour
 
     void EvaluatorResult(string content)
     {
+        Debug.LogError("EvaluatorResult");
+
         Result result = XmlParser.Parse(content);
 
         if (result.error == Error.NORMAL)
         {
+            Debug.LogError("EvaluatorResult Error.NORMAL");
             float time = 0.5f;
 
             if (result.score.total > 4)
@@ -141,9 +145,11 @@ public class Restaurant : MonoBehaviour
             {
                 StartCoroutine(StartCallBack(successCallBack));
             }
+
         }
         else
         {
+            Debug.LogError("EvaluatorResult Error.Other");
             agent.StartEvaluator(EvaluatorResult, content);
         }
     }

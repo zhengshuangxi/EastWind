@@ -24,10 +24,6 @@ public class Course : EventTriggerListener
             case "Back":
                 Back();
                 break;
-            case "Test":
-                Loading.scene = "Driver";
-                SceneManager.LoadScene("Loading");
-                break;
             default:
                 break;
         }
@@ -36,20 +32,13 @@ public class Course : EventTriggerListener
     public void Preview(GameObject go)
     {
         Role.currentRole.isReview = false;
-        if(go.transform.parent.name== "Story")
+        if(go.transform.parent.name== "Restaurant")
         {
-            Story();
-            //Server.GetInstance().StartStudy(4);
+            Restaurant();
         }
-        else if(go.transform.parent.name == "Dinner")
+        else if(go.transform.parent.name == "Shopping Mall")
         {
-            Dinner();
-            //Server.GetInstance().StartStudy(5);
-        }
-        else if (go.transform.parent.name == "Stroll")
-        {
-            Stroll();
-           // Server.GetInstance().StartStudy(6);
+            ShoppingMall();
         }
     }
 
@@ -57,35 +46,33 @@ public class Course : EventTriggerListener
     {
         Role.currentRole.isReview = true;
 
-        if (go.transform.parent.name == "Story")
+        if (go.transform.parent.name == "Restaurant")
         {
-            Story();
+            Restaurant();
             
         }
-        else if (go.transform.parent.name == "Dinner")
+        else if (go.transform.parent.name == "Shopping Mall")
         {
-            Dinner();
-            
-        }
-        else if (go.transform.parent.name == "Shopping")
-        {
-            Stroll();
-            
+            ShoppingMall();
         }
     }
 
-    public static void Story()
+    public static void Restaurant()
     {
+        Loading.scene = "Restaurant";
+        SceneManager.LoadScene("Loading");
     }
 
-    public static void Dinner()
+    public static void ShoppingMall()
     {
+        Loading.scene = "Market";
+        SceneManager.LoadScene("Loading");
     }
 
     public static void Stroll()
     {
-        Loading.scene = "Stroll";
-        SceneManager.LoadScene("Loading");
+        //Loading.scene = "Stroll";
+        //SceneManager.LoadScene("Loading");
         //Server.GetInstance().StartStudy(6);
     }
 

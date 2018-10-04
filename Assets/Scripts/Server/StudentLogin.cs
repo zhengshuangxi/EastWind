@@ -97,7 +97,7 @@ public class StudentLogin : Singleton<StudentLogin>
     public void ReceiveMsg(string data)
     {
         //data = data.TrimStart(' ');
-        Debug.Log("ReceiveMsg:" + data);
+        //Debug.Log("ReceiveMsg:" + data);
         if (data.Contains("|"))
         {
             Protocol protocol = Protocol.Parse(data);
@@ -114,11 +114,11 @@ public class StudentLogin : Singleton<StudentLogin>
                 int courseId = ((CourseStart)protocol).lessionId;
                 if (courseId == 4)
                 {
-                    Course.Story();
+                    Course.Restaurant();
                 }
                 else if (courseId == 5)
                 {
-                    Course.Dinner();
+                    Course.ShoppingMall();
                 }
                 else if (courseId == 6)
                 {
