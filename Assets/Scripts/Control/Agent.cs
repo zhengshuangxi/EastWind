@@ -108,8 +108,13 @@ public class Agent : Singleton<MonoBehaviour>
             instance.Call("StartEvaluator", text);
         }
 #else
-        EvaluatorResult("");
+        Invoke("EvaluatorResultCallBack", 2f);
 #endif
+    }
+
+    void EvaluatorResultCallBack()
+    {
+        EvaluatorResult("");
     }
 
     void StartEvaluator(string text)

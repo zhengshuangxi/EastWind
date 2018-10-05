@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,9 +19,12 @@ public class Restaurant : MonoBehaviour
 
     Transform cam;
     CallBack successCallBack = null;
+    bool repeatEvaluate = false;
     Agent agent = null;
     float interval = 1f;
     List<Transform> answers = new List<Transform>();
+    string prefix = "I would like ";
+    string regularExpression = "[A-Z]+";
 
     void Awake()
     {
@@ -28,7 +32,7 @@ public class Restaurant : MonoBehaviour
         agent = GameObject.Find("Agent").GetComponent<Agent>();
         question.GetComponent<Question>().SetCallBack(ClickCallBack);
 
-        for (int i = 1; i <= 5; i++)
+        for (int i = 1; i <= 7; i++)
         {
             Transform answer = question.Find("Panel/Answer" + i);
             answer.gameObject.SetActive(false);
@@ -54,8 +58,8 @@ public class Restaurant : MonoBehaviour
 
         yield return new WaitForSeconds(interval);
 
-        waiter.GetComponent<Animation>().Play(dialogue.anim);
         float time = Audio.GetInstance().Play(AudioType.INTRO, dialogue.audio);
+        PlayAnimation(dialogue.anim, time);
         dialogueWaiter.Find("Text").GetComponent<TextMesh>().text = dialogue.waiterText;
         dialogueWaiter.gameObject.SetActive(true);
         if (dialogue.displayDragonText)
@@ -64,30 +68,45 @@ public class Restaurant : MonoBehaviour
             dialogueDragon.gameObject.SetActive(true);
         }
         yield return new WaitForSeconds(time);
+        StopAnimation(dialogue.anim);
         ShowQuestion(dialogue.answerContents);
+    }
+
+    void PlayAnimation(string anim, float time)
+    {
+        Animation animation = waiter.GetComponent<Animation>();
+        animation[anim].speed = animation[anim].length / time;
+        animation.Play(anim);
+    }
+
+    void StopAnimation(string anim)
+    {
+        waiter.GetComponent<Animation>().Stop(anim);
     }
 
     IEnumerator DialogueOne()
     {
         successCallBack = DialogueTwo;
+        repeatEvaluate = true;
 
-        waiter.GetComponent<Animation>().Play("Ask_1");
         float time = Audio.GetInstance().Play(AudioType.INTRO, "Restaurant/doforyou");
+        PlayAnimation("Ask_1", time);
         dialogueWaiter.Find("Text").GetComponent<TextMesh>().text = "What can I do for you, sir?";
         dialogueWaiter.gameObject.SetActive(true);
         yield return new WaitForSeconds(time);
+        StopAnimation("Ask_1");
 
         dialogueGuest.Find("Text").GetComponent<TextMesh>().text = "May I have a menu, please?";
         dialogueGuest.gameObject.SetActive(true);
 
         dialogueDragon.Find("Text").GetComponent<TextMesh>().text = "menu n.菜单 美 [ˈmɛnju, ˈmenju]";
         dialogueDragon.gameObject.SetActive(true);
+        dialogueGuest.Find("InputHint").GetComponent<InputHint>().StartShow();
         agent.StartEvaluator(ReceiveEvaluatorResult, "May I have a menu, please?");
     }
 
     IEnumerator DialogueTwo()
     {
-        Debug.LogError("DialogueTwo()");
         yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueTwo));
     }
 
@@ -100,11 +119,12 @@ public class Restaurant : MonoBehaviour
 
         yield return new WaitForSeconds(interval);
 
-        waiter.GetComponent<Animation>().Play("OK");
         float time = Audio.GetInstance().Play(AudioType.INTRO, "Restaurant/enjoy");
+        PlayAnimation("OK", time);
         dialogueWaiter.Find("Text").GetComponent<TextMesh>().text = "Hope you enjoy your meal!";
         dialogueWaiter.gameObject.SetActive(true);
         yield return new WaitForSeconds(time);
+        StopAnimation("OK");
 
         Loading.scene = "Main";
         SceneManager.LoadScene("Loading");
@@ -117,13 +137,12 @@ public class Restaurant : MonoBehaviour
 
     void ReceiveEvaluatorResult(string content)
     {
-        Debug.LogError("EvaluatorResult");
+        dialogueGuest.Find("InputHint").GetComponent<InputHint>().StopShow();
 
         Result result = XmlParser.Parse(content);
 
         if (result.error == Error.NORMAL)
         {
-            Debug.LogError("EvaluatorResult Error.NORMAL");
             float time = 0.5f;
 
             if (result.score.total > 4)
@@ -146,12 +165,11 @@ public class Restaurant : MonoBehaviour
             if (successCallBack != null)
             {
                 StartCoroutine(StartCallBack(successCallBack));
+                successCallBack = null;
             }
-
         }
-        else
+        else if (repeatEvaluate)
         {
-            Debug.LogError("EvaluatorResult Error.Other");
             agent.StartEvaluator(ReceiveEvaluatorResult, content);
         }
     }
@@ -172,103 +190,144 @@ public class Restaurant : MonoBehaviour
         }
     }
 
+    IEnumerator DialogueSalad()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueSalad));
+    }
+
+    IEnumerator DialogueSoup()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueSoup));
+    }
+
+    IEnumerator DialogueSaladDressing()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueSaladDressing));
+    }
+
+    IEnumerator DialogueSteak()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueSteak));
+    }
+
+    IEnumerator DialogueSauce()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueSauce));
+    }
+
+    IEnumerator DialoguePasta()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialoguePasta));
+    }
+
+    IEnumerator DialogueHamburger()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueHamburger));
+    }
+
+    IEnumerator DialogueCoffe()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueCoffe));
+    }
+
+    IEnumerator DialogueJuice()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueJuice));
+    }
+
+    IEnumerator DialogueThree()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueThree));
+    }
+
+    IEnumerator DialogueFour()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueFour));
+    }
+
+    IEnumerator DialogueFive()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueFive));
+    }
+
+    IEnumerator DialogueSix()
+    {
+        yield return StartCoroutine(DialogueDisplay(Dialogue.dialogueSix));
+    }
+
     public void ClickCallBack(string content)
     {
-        if (content == "A.Salad")
+        if (content == "salad")
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueSalad));
+            successCallBack = DialogueSalad;
         }
-        else if (content == "B.Soup")
+        else if (content == "soup")
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueSoup));
+            successCallBack = DialogueSoup;
         }
-        else if (content == "A.Caesar Salad"
-            || content == "B.Mixed Vegetables Salad"
-            || content == "C.Seafood Salad With Fruit"
-            || content == "D.Tuna Fish Salad"
-            || content == "E.Smoked Salmon Salad")
+        else if (content == "steak")
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueSaladDressing));
+            successCallBack = DialogueSteak;
         }
-        else if (content == "A.Steak")
+        else if (Dialogue.dialogueSalad.answerContents.Contains(content))
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueSteak));
+            successCallBack = DialogueSaladDressing;
         }
-        else if (content == "A.Rare"
-            || content == "B.Medium"
-            || content == "C.Well-done")
+        else if (Dialogue.dialogueSteak.answerContents.Contains(content))
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueSauce));
+            successCallBack = DialogueSauce;
         }
-        else if (content == "B.Pasta")
+        else if (content == "pasta")
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialoguePasta));
+            successCallBack = DialoguePasta;
         }
-        else if (content == "C.Hamburger")
+        else if (content == "hamburger")
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueHamburger));
+            successCallBack = DialogueHamburger;
         }
-        else if (content == "A.Coffee, Milk, Tea, Water")
+        else if (content == "coffee" || content == "milk" || content == "tea" || content == "water")
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueCoffe));
+            successCallBack = DialogueCoffe;
         }
-        else if (content == "B.Juice")
+        else if (content == "juice")
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueJuice));
+            successCallBack = DialogueJuice;
         }
-        else if (content == "A.Caesar"
-            || content == "B.Thousand Island"
-            || content == "C.Vinaigrette"
-            || content == "D.Ranch"
-            || content == "A.Cream Mushroom Soup"
-            || content == "B.Traditional Tomato Soup"
-            || content == "C.French Onion Soup"
-            || content == "D.Borsch"
+        else if (Dialogue.dialogueSaladDressing.answerContents.Contains(content)
+            || Dialogue.dialogueSoup.answerContents.Contains(content)
             )
         {
             StartCoroutine(DialogueDisplay(Dialogue.dialogueThree));
         }
-        else if (content == "A.Black Pepper Sauce"
-            || content == "B.Red Wine Sauce"
-            || content == "C.Creamy Mushroom Sauce"
-            || content == "A.Spaghetti"
-            || content == "B.Bow Ties"
-            || content == "C.Shells"
-            || content == "D.Spirals"
-            || content == "E.Ravioli"
-            || content == "A.Chicken"
-            || content == "B.Pork"
-            || content == "C.Beef"
-            || content == "D.Shrimp"
-            || content == "E.Bacon"
+        else if (Dialogue.dialogueSauce.answerContents.Contains(content)
+            || Dialogue.dialoguePasta.answerContents.Contains(content)
+            || Dialogue.dialogueHamburger.answerContents.Contains(content)
             )
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueFour));
+            successCallBack = DialogueFour;
         }
-        else if (content == "A.Ice Cream"
-            || content == "B.Cake"
-            || content == "C.Chocolate"
-            || content == "D.Cookies"
-            || content == "E.Pudding")
+        else if (Dialogue.dialogueFour.answerContents.Contains(content))
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueFive));
+            successCallBack = DialogueFive;
         }
-        else if (content == "C.Coco cola, Wine"
-            || content == "A.Hot, please."
-            || content == "B.Cold, please."
-            || content == "A.Applce"
-            || content == "B.Orange"
-            || content == "C.Grape"
-            || content == "D.Pine Apple"
-            || content == "E.Kiwi"
+        else if (content == "coco cola" || content == "wine"
+            || Dialogue.dialogueCoffe.answerContents.Contains(content)
+            || Dialogue.dialogueJuice.answerContents.Contains(content)
             )
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueSix));
+            successCallBack = DialogueSix;
         }
-        else if (content == "A.No, thanks!"
-            || content == "B.Maybe later.")
+        else if (content == "No, thanks!" || content == "Maybe later.")
         {
-            StartCoroutine(StartCallBack(DialogueSeven));
+            successCallBack = DialogueSeven;
         }
+
+        repeatEvaluate = false;
+        string evaContent = Regex.IsMatch(content, regularExpression) ? content : prefix + content;
+        agent.StartEvaluator(ReceiveEvaluatorResult, evaContent);
+
+        dialogueGuest.Find("Text").GetComponent<TextMesh>().text = evaContent;
+        dialogueGuest.Find("InputHint").GetComponent<InputHint>().StartShow();
+        dialogueGuest.gameObject.SetActive(true);
     }
 }

@@ -17,7 +17,7 @@ public class Dialogue
     "Restaurant/starters",
     "Here is the menu. We have many choices\nfor the starters, the main course, desserts\nand drinks. What would you like to have\nfor starters?",
     "starter 开胃小吃 salad 沙拉 soup 汤\n回答：I would like…",
-    new List<string>() { "A.Salad", "B.Soup" }
+    new List<string>() { "salad", "soup" }
     );
 
     public static Dialogue dialogueThree = new Dialogue
@@ -26,7 +26,7 @@ public class Dialogue
     "Restaurant/maincourse",
     "What would you like to have for the main course?",
     "steak 肉排 pasta 意大利面 hamburger 汉堡包\n回答：I would like…",
-    new List<string>() { "A.Steak", "B.Pasta", "C.Hamburger" }
+    new List<string>() { "steak", "pasta", "hamburger" }
     );
 
     public static Dialogue dialogueFour = new Dialogue
@@ -35,7 +35,7 @@ public class Dialogue
     "Restaurant/dessert",
     "What would you like to have for the dessert?",
     "dessert 甜品 回答：I would like…",
-    new List<string>() { "A.Ice Cream", "B.Cake", "C.Chocolate", "D.Cookies", "E.Pudding" }
+    new List<string>() { "ice cream", "cake", "chocolate", "cookies", "pudding" }
     );
 
     public static Dialogue dialogueFive = new Dialogue
@@ -44,7 +44,7 @@ public class Dialogue
     "Restaurant/drink",
     "Would you like something to drink?",
     "回答：I would like…",
-    new List<string>() { "A.Coffee, Milk, Tea, Water", "B.Juice", "C.Coco cola, Wine" }
+    new List<string>() { "coffee", "milk", "tea", "water", "juice", "coco cola", "wine" }
     );
 
     public static Dialogue dialogueSix = new Dialogue
@@ -53,7 +53,7 @@ public class Dialogue
     "Restaurant/else",
     "Would you like anything else, sir?",
     "回答：I would like…",
-    new List<string>() { "A.No, thanks!", "B.Maybe later." }
+    new List<string>() { "No, thanks!", "Maybe later." }
     );
 
     public static Dialogue dialogueSalad = new Dialogue
@@ -62,7 +62,7 @@ public class Dialogue
     "Restaurant/whatsalad",
     "What salad would you like?",
     "回答：I would like…",
-    new List<string>() { "A.Caesar Salad", "B.Mixed Vegetables Salad", "C.Seafood Salad With Fruit", "D.Tuna Fish Salad", "E.Smoked Salmon Salad" }
+    new List<string>() { "caesar salad", "mixed vegetables salad", "seafood salad with fruit", "tuna fish salad", "smoked salmon salad" }
     );
 
     public static Dialogue dialogueSaladDressing = new Dialogue
@@ -71,7 +71,7 @@ public class Dialogue
     "Restaurant/whatsaladdressing",
     "What salad dressing would you like?",
     "回答：I would like…",
-    new List<string>() { "A.Caesar", "B.Thousand Island", "C.Vinaigrette", "D.Ranch" }
+    new List<string>() { "caesar", "thousand island", "vinaigrette", "ranch" }
     );
 
     public static Dialogue dialogueSoup = new Dialogue
@@ -80,7 +80,7 @@ public class Dialogue
     "Restaurant/whatsoup",
     "What soup would you like?",
     "回答：I would like…",
-    new List<string>() { "A.Cream Mushroom Soup", "B.Traditional Tomato Soup", "C.French Onion Soup", "D.Borsch" }
+    new List<string>() { "cream mushroom soup", "traditional tomato soup", "french onion soup", "borsch" }
     );
 
     public static Dialogue dialogueSteak = new Dialogue
@@ -89,7 +89,7 @@ public class Dialogue
     "Restaurant/steak",
     "How would you like your steak?",
     "回答：I would like…",
-    new List<string>() { "A.Rare", "B.Medium", "C.Well-done" }
+    new List<string>() { "rare", "medium", "well-done" }
     );
 
     public static Dialogue dialoguePasta = new Dialogue
@@ -98,7 +98,7 @@ public class Dialogue
     "Restaurant/pasta",
     "What kind of pasta would you like?",
     "回答：I would like…",
-    new List<string>() { "A.Spaghetti", "B.Bow Ties", "C.Shells", "D.Spirals", "E.Ravioli" }
+    new List<string>() { "spaghetti", "bow ties", "shells", "spirals", "ravioli" }
     );
 
     public static Dialogue dialogueHamburger = new Dialogue
@@ -107,7 +107,7 @@ public class Dialogue
     "Restaurant/hamburger",
     "What meat would you like for your hamburger?",
     "回答：I would like…",
-    new List<string>() { "A.Chicken", "B.Pork", "C.Beef", "D.Shrimp", "E.Bacon" }
+    new List<string>() { "chicken", "pork", "beef", "shrimp", "bacon" }
     );
 
     public static Dialogue dialogueSauce = new Dialogue
@@ -116,7 +116,7 @@ public class Dialogue
     "Restaurant/sauce",
     "What sauce would you like?",
     "sauce 酱汁;调味汁 回答：I would like…",
-    new List<string>() { "A.Black Pepper Sauce", "B.Red Wine Sauce", "C.Creamy Mushroom Sauce" }
+    new List<string>() { "black pepper sauce", "red wine sauce", "creamy mushroom sauce" }
     );
 
     public static Dialogue dialogueCoffe = new Dialogue
@@ -125,7 +125,7 @@ public class Dialogue
     "Restaurant/coffee",
     "Do you want it hot or cold?",
     "",
-    new List<string>() { "A.Hot, please.", "B.Cold, please." },
+    new List<string>() { "Hot, please.", "Cold, please." },
     false
     );
 
@@ -135,7 +135,7 @@ public class Dialogue
     "Restaurant/juice",
     "What juice would you like?",
     "",
-    new List<string>() { "A.Applce", "B.Orange", "C.Grape", "D.Pine Apple", "E.Kiwi" },
+    new List<string>() { "apple", "orange", "grape", "pine apple", "kiwi" },
     false
     );
 
