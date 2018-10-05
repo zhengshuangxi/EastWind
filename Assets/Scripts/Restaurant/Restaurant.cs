@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Restaurant : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class Restaurant : MonoBehaviour
 
         for (int i = 1; i <= 5; i++)
         {
-            Transform answer = question.Find("Answer" + i);
+            Transform answer = question.Find("Panel/Answer" + i);
             answer.gameObject.SetActive(false);
             answers.Add(answer);
         }
@@ -161,7 +162,7 @@ public class Restaurant : MonoBehaviour
             if (i < answerContents.Count)
             {
                 answers[i].gameObject.SetActive(true);
-                answers[i].Find("Text").GetComponent<TextMesh>().text = answerContents[i];
+                answers[i].Find("Text").GetComponent<Text>().text = answerContents[i];
             }
             else
             {

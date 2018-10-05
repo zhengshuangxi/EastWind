@@ -123,7 +123,7 @@ public class Pvr_UnitySDKSightInputModule : BaseInputModule
         {
             Camera cam = pointerData.enterEventCamera;
             // Note: rays through screen start at near clipping plane.
-            float dist = pointerData.pointerCurrentRaycast.distance + cam.nearClipPlane - 0.1f;
+            float dist = pointerData.pointerCurrentRaycast.distance + cam.nearClipPlane;
             
 
             //float dist = pointerData.pointerCurrentRaycast.distance;
