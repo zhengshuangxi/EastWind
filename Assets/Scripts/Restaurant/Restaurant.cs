@@ -80,7 +80,7 @@ public class Restaurant : MonoBehaviour
 
         dialogueDragon.Find("Text").GetComponent<TextMesh>().text = "menu n.菜单 美 [ˈmɛnju, ˈmenju]";
         dialogueDragon.gameObject.SetActive(true);
-        agent.StartEvaluator(EvaluatorResult, "May I have a menu, please?");
+        agent.StartEvaluator(ReceiveEvaluatorResult, "May I have a menu, please?");
     }
 
     IEnumerator DialogueTwo()
@@ -113,7 +113,7 @@ public class Restaurant : MonoBehaviour
         yield return StartCoroutine(callBack());
     }
 
-    void EvaluatorResult(string content)
+    void ReceiveEvaluatorResult(string content)
     {
         Debug.LogError("EvaluatorResult");
 
@@ -150,7 +150,7 @@ public class Restaurant : MonoBehaviour
         else
         {
             Debug.LogError("EvaluatorResult Error.Other");
-            agent.StartEvaluator(EvaluatorResult, content);
+            agent.StartEvaluator(ReceiveEvaluatorResult, content);
         }
     }
 

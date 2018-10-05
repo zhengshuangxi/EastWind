@@ -42,7 +42,7 @@ public class Conversation : Singleton<Conversation>
         cam = GameObject.Find("Pvr_UnitySDK/Head").transform;
         agent = GameObject.Find("Agent").GetComponent<Agent>();
 
-         curriculum = Curriculum.Get(Loading.scene);
+        curriculum = Curriculum.Get(Loading.scene);
         //curriculum = Curriculum.Get("Dinner");
 
         ShowStar(0);
@@ -208,7 +208,7 @@ public class Conversation : Singleton<Conversation>
     }
 
 
-        void EvaluatorResult(string content)
+    void ReceiveEvaluatorResult(string content)
     {
         voiceHint = false;
         Result result = XmlParser.Parse(content);
@@ -320,7 +320,7 @@ public class Conversation : Singleton<Conversation>
         iPlay.Display(Sentence.Get(dialog.answerIds[aIndex]).itemName);
         customer.Find("EN").GetComponent<Text>().text = Sentence.Get(dialog.answerIds[aIndex]).en;
         customer.Find("CN").GetComponent<Text>().text = Role.currentRole.isReview ? "" : Sentence.Get(dialog.answerIds[aIndex]).cn;
-        agent.StartEvaluator(EvaluatorResult, Sentence.Get(dialog.answerIds[aIndex]).en);
+        agent.StartEvaluator(ReceiveEvaluatorResult, Sentence.Get(dialog.answerIds[aIndex]).en);
 
         ///测试
         //Hint.GetInstance().Show("棒极了！", "Perfect!");

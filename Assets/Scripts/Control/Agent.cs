@@ -28,7 +28,7 @@ public class Agent : Singleton<MonoBehaviour>
             if (voice != null && currentActivity != null)
             {
                 instance = voice.CallStatic<AndroidJavaObject>("GetInstance");
-                instance.Call("SetContext", currentActivity, gameObject.name);
+                instance.Call("SetContext", currentActivity, "Agent");
             }
         }
     }

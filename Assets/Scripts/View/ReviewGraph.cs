@@ -225,11 +225,11 @@ public class ReviewGraph : Singleton<ReviewGraph>
 
     void Voice(Point point)
     {
-        agent.StartEvaluator(EvaluatorResult, point.en);
+        agent.StartEvaluator(ReceiveEvaluatorResult, point.en);
         Role.AddToReview(point.sentenceId);
     }
 
-    void EvaluatorResult(string content)
+    void ReceiveEvaluatorResult(string content)
     {
         Result result = XmlParser.Parse(content);
 
