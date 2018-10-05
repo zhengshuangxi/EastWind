@@ -297,7 +297,7 @@ public class Restaurant : MonoBehaviour
             || Dialogue.dialogueSoup.answerContents.Contains(content)
             )
         {
-            StartCoroutine(DialogueDisplay(Dialogue.dialogueThree));
+            successCallBack = DialogueThree;
         }
         else if (Dialogue.dialogueSauce.answerContents.Contains(content)
             || Dialogue.dialoguePasta.answerContents.Contains(content)
