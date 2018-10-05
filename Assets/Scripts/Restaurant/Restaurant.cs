@@ -26,6 +26,7 @@ public class Restaurant : MonoBehaviour
     {
         cam = GameObject.Find("Pvr_UnitySDK/Head").transform;
         agent = GameObject.Find("Agent").GetComponent<Agent>();
+        question.GetComponent<Question>().SetCallBack(ClickCallBack);
 
         for (int i = 1; i <= 5; i++)
         {
@@ -105,7 +106,7 @@ public class Restaurant : MonoBehaviour
         dialogueWaiter.gameObject.SetActive(true);
         yield return new WaitForSeconds(time);
 
-        Loading.scene = "Stroll";
+        Loading.scene = "Main";
         SceneManager.LoadScene("Loading");
     }
 
@@ -171,115 +172,103 @@ public class Restaurant : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void ClickCallBack(string content)
     {
-        Ray ray = new Ray(cam.position, cam.forward);
-        RaycastHit hit;
-        if (Input.GetKeyDown(KeyCode.JoystickButton0) || Input.GetMouseButtonDown(0))
+        if (content == "A.Salad")
         {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-            {
-                Transform text = hit.transform.Find("Text");
-                if (text != null)
-                {
-                    if (text.GetComponent<TextMesh>().text == "A.Salad")
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueSalad));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "B.Soup")
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueSoup));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "A.Caesar Salad"
-                        || text.GetComponent<TextMesh>().text == "B.Mixed Vegetables Salad"
-                        || text.GetComponent<TextMesh>().text == "C.Seafood Salad With Fruit"
-                        || text.GetComponent<TextMesh>().text == "D.Tuna Fish Salad"
-                        || text.GetComponent<TextMesh>().text == "E.Smoked Salmon Salad")
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueSaladDressing));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "A.Steak")
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueSteak));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "A.Rare"
-                        || text.GetComponent<TextMesh>().text == "B.Medium"
-                        || text.GetComponent<TextMesh>().text == "C.Well-done")
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueSauce));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "B.Pasta")
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialoguePasta));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "C.Hamburger")
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueHamburger));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "A.Coffee, Milk, Tea, Water")
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueCoffe));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "B.Juice")
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueJuice));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "A.Caesar"
-                        || text.GetComponent<TextMesh>().text == "B.Thousand Island"
-                        || text.GetComponent<TextMesh>().text == "C.Vinaigrette"
-                        || text.GetComponent<TextMesh>().text == "D.Ranch"
-                        || text.GetComponent<TextMesh>().text == "A.Cream Mushroom Soup"
-                        || text.GetComponent<TextMesh>().text == "B.Traditional Tomato Soup"
-                        || text.GetComponent<TextMesh>().text == "C.French Onion Soup"
-                        || text.GetComponent<TextMesh>().text == "D.Borsch"
-                        )
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueThree));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "A.Black Pepper Sauce"
-                        || text.GetComponent<TextMesh>().text == "B.Red Wine Sauce"
-                        || text.GetComponent<TextMesh>().text == "C.Creamy Mushroom Sauce"
-                        || text.GetComponent<TextMesh>().text == "A.Spaghetti"
-                        || text.GetComponent<TextMesh>().text == "B.Bow Ties"
-                        || text.GetComponent<TextMesh>().text == "C.Shells"
-                        || text.GetComponent<TextMesh>().text == "D.Spirals"
-                        || text.GetComponent<TextMesh>().text == "E.Ravioli"
-                        || text.GetComponent<TextMesh>().text == "A.Chicken"
-                        || text.GetComponent<TextMesh>().text == "B.Pork"
-                        || text.GetComponent<TextMesh>().text == "C.Beef"
-                        || text.GetComponent<TextMesh>().text == "D.Shrimp"
-                        || text.GetComponent<TextMesh>().text == "E.Bacon"
-                        )
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueFour));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "A.Ice Cream"
-                        || text.GetComponent<TextMesh>().text == "B.Cake"
-                        || text.GetComponent<TextMesh>().text == "C.Chocolate"
-                        || text.GetComponent<TextMesh>().text == "D.Cookies"
-                        || text.GetComponent<TextMesh>().text == "E.Pudding")
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueFive));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "C.Coco cola, Wine"
-                        || text.GetComponent<TextMesh>().text == "A.Hot, please."
-                        || text.GetComponent<TextMesh>().text == "B.Cold, please."
-                        || text.GetComponent<TextMesh>().text == "A.Applce"
-                        || text.GetComponent<TextMesh>().text == "B.Orange"
-                        || text.GetComponent<TextMesh>().text == "C.Grape"
-                        || text.GetComponent<TextMesh>().text == "D.Pine Apple"
-                        || text.GetComponent<TextMesh>().text == "E.Kiwi"
-                        )
-                    {
-                        StartCoroutine(DialogueDisplay(Dialogue.dialogueSix));
-                    }
-                    else if (text.GetComponent<TextMesh>().text == "A.No, thanks!"
-                        || text.GetComponent<TextMesh>().text == "B.Maybe later.")
-                    {
-                        StartCoroutine(StartCallBack(DialogueSeven));
-                    }
-                }
-            }
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueSalad));
+        }
+        else if (content == "B.Soup")
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueSoup));
+        }
+        else if (content == "A.Caesar Salad"
+            || content == "B.Mixed Vegetables Salad"
+            || content == "C.Seafood Salad With Fruit"
+            || content == "D.Tuna Fish Salad"
+            || content == "E.Smoked Salmon Salad")
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueSaladDressing));
+        }
+        else if (content == "A.Steak")
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueSteak));
+        }
+        else if (content == "A.Rare"
+            || content == "B.Medium"
+            || content == "C.Well-done")
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueSauce));
+        }
+        else if (content == "B.Pasta")
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialoguePasta));
+        }
+        else if (content == "C.Hamburger")
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueHamburger));
+        }
+        else if (content == "A.Coffee, Milk, Tea, Water")
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueCoffe));
+        }
+        else if (content == "B.Juice")
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueJuice));
+        }
+        else if (content == "A.Caesar"
+            || content == "B.Thousand Island"
+            || content == "C.Vinaigrette"
+            || content == "D.Ranch"
+            || content == "A.Cream Mushroom Soup"
+            || content == "B.Traditional Tomato Soup"
+            || content == "C.French Onion Soup"
+            || content == "D.Borsch"
+            )
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueThree));
+        }
+        else if (content == "A.Black Pepper Sauce"
+            || content == "B.Red Wine Sauce"
+            || content == "C.Creamy Mushroom Sauce"
+            || content == "A.Spaghetti"
+            || content == "B.Bow Ties"
+            || content == "C.Shells"
+            || content == "D.Spirals"
+            || content == "E.Ravioli"
+            || content == "A.Chicken"
+            || content == "B.Pork"
+            || content == "C.Beef"
+            || content == "D.Shrimp"
+            || content == "E.Bacon"
+            )
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueFour));
+        }
+        else if (content == "A.Ice Cream"
+            || content == "B.Cake"
+            || content == "C.Chocolate"
+            || content == "D.Cookies"
+            || content == "E.Pudding")
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueFive));
+        }
+        else if (content == "C.Coco cola, Wine"
+            || content == "A.Hot, please."
+            || content == "B.Cold, please."
+            || content == "A.Applce"
+            || content == "B.Orange"
+            || content == "C.Grape"
+            || content == "D.Pine Apple"
+            || content == "E.Kiwi"
+            )
+        {
+            StartCoroutine(DialogueDisplay(Dialogue.dialogueSix));
+        }
+        else if (content == "A.No, thanks!"
+            || content == "B.Maybe later.")
+        {
+            StartCoroutine(StartCallBack(DialogueSeven));
         }
     }
 }
