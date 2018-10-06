@@ -38,6 +38,7 @@ public class Restaurant : MonoBehaviour
             answer.gameObject.SetActive(false);
             answers.Add(answer);
         }
+        question.Find("Panel/Skip").gameObject.SetActive(false);
 
         dialogueWaiter.gameObject.SetActive(false);
         dialogueGuest.gameObject.SetActive(false);
@@ -103,6 +104,7 @@ public class Restaurant : MonoBehaviour
         dialogueDragon.gameObject.SetActive(true);
         dialogueGuest.Find("InputHint").GetComponent<InputHint>().StartShow();
         agent.StartEvaluator(ReceiveEvaluatorResult, "May I have a menu, please?");
+        question.Find("Panel/Skip").gameObject.SetActive(true);
     }
 
     IEnumerator DialogueTwo()
@@ -143,6 +145,8 @@ public class Restaurant : MonoBehaviour
 
         if (result.error == Error.NORMAL)
         {
+            question.Find("Panel/Skip").gameObject.SetActive(false);
+
             float time = 0.5f;
 
             if (result.score.total > 4)
@@ -257,6 +261,17 @@ public class Restaurant : MonoBehaviour
 
     public void ClickCallBack(string content)
     {
+        if (content == "Skip")
+        {
+            question.Find("Panel/Skip").gameObject.SetActive(false);
+            if (successCallBack != null)
+            {
+                StartCoroutine(StartCallBack(successCallBack));
+                successCallBack = null;
+            }
+            return;
+        }
+
         if (content == "salad")
         {
             successCallBack = DialogueSalad;
@@ -325,6 +340,7 @@ public class Restaurant : MonoBehaviour
         repeatEvaluate = false;
         string evaContent = Regex.IsMatch(content, regularExpression) ? content : prefix + content;
         agent.StartEvaluator(ReceiveEvaluatorResult, evaContent);
+        question.Find("Panel/Skip").gameObject.SetActive(true);
 
         dialogueGuest.Find("Text").GetComponent<TextMesh>().text = evaContent;
         dialogueGuest.Find("InputHint").GetComponent<InputHint>().StartShow();
