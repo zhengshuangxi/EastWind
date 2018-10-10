@@ -16,6 +16,7 @@ public class Restaurant : MonoBehaviour
     public Transform dialogueGuest;
     public Transform dialogueDragon;
     public Transform question;
+    public Transform ordered;
 
     Transform cam;
     CallBack successCallBack = null;
@@ -25,6 +26,8 @@ public class Restaurant : MonoBehaviour
     List<Transform> answers = new List<Transform>();
     string prefix = "I would like ";
     string regularExpression = "[A-Z]+";
+    Dictionary<string, Transform> orderedFoods = new Dictionary<string, Transform>();
+    string orderedFood = string.Empty;
 
     void Awake()
     {
@@ -43,6 +46,13 @@ public class Restaurant : MonoBehaviour
         dialogueWaiter.gameObject.SetActive(false);
         dialogueGuest.gameObject.SetActive(false);
         dialogueDragon.gameObject.SetActive(false);
+
+        for (int i = 0; i < ordered.childCount; i++)
+        {
+            Transform child = ordered.GetChild(i);
+            child.gameObject.SetActive(false);
+            orderedFoods.Add(child.name, child);
+        }
     }
 
     private IEnumerator Start()
@@ -165,6 +175,9 @@ public class Restaurant : MonoBehaviour
             {
                 time = Audio.GetInstance().Play(AudioType.INTRO, "comeon");
             }
+
+            if (orderedFoods.ContainsKey(orderedFood))
+                orderedFoods[orderedFood].gameObject.SetActive(true);
 
             if (successCallBack != null)
             {
@@ -336,6 +349,8 @@ public class Restaurant : MonoBehaviour
         {
             successCallBack = DialogueSeven;
         }
+
+        orderedFood = content;
 
         repeatEvaluate = false;
         string evaContent = Regex.IsMatch(content, regularExpression) ? content : prefix + content;
