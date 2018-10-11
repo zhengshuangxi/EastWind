@@ -358,6 +358,7 @@ public class Restaurant : MonoBehaviour
         question.Find("Panel/Skip").gameObject.SetActive(true);
 
         dialogueGuest.Find("Text").GetComponent<TextMesh>().text = evaContent;
+        dialogueGuest.Find("Image").GetComponent<Sprites>().Show(content);
         dialogueGuest.Find("InputHint").GetComponent<InputHint>().StartShow();
         dialogueGuest.gameObject.SetActive(true);
     }
