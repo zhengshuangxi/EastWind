@@ -15,19 +15,21 @@ public class Restaurant : MonoBehaviour
     public Transform dialogueWaiter;
     public Transform dialogueGuest;
     public Transform dialogueDragon;
-    public Transform question;
+    public Question question;
     public Transform ordered;
 
     Transform cam;
     CallBack successCallBack = null;
-    bool repeatEvaluate = false;
     Agent agent = null;
     float interval = 1f;
-    List<Transform> answers = new List<Transform>();
     string prefix = "I would like ";
     string regularExpression = "[A-Z]+";
     Dictionary<string, Transform> orderedFoods = new Dictionary<string, Transform>();
     string orderedFood = string.Empty;
+
+    private float clickOvertime = 2f;
+    private float evaluateOvertime = 5f;
+    private int skipTimes = 3;
 
     void Awake()
     {
@@ -35,13 +37,7 @@ public class Restaurant : MonoBehaviour
         agent = GameObject.Find("Agent").GetComponent<Agent>();
         question.GetComponent<Question>().SetCallBack(ClickCallBack);
 
-        for (int i = 1; i <= 7; i++)
-        {
-            Transform answer = question.Find("Panel/Answer" + i);
-            answer.gameObject.SetActive(false);
-            answers.Add(answer);
-        }
-        question.Find("Panel/Skip").gameObject.SetActive(false);
+        question.transform.Find("Panel/Skip").gameObject.SetActive(false);
 
         dialogueWaiter.gameObject.SetActive(false);
         dialogueGuest.gameObject.SetActive(false);
@@ -65,7 +61,7 @@ public class Restaurant : MonoBehaviour
         dialogueWaiter.gameObject.SetActive(false);
         dialogueGuest.gameObject.SetActive(false);
         dialogueDragon.gameObject.SetActive(false);
-        ShowQuestion(new List<string>());
+        question.ShowQuestion(new List<string>(), 0f);
 
         yield return new WaitForSeconds(interval);
 
@@ -80,7 +76,7 @@ public class Restaurant : MonoBehaviour
         }
         yield return new WaitForSeconds(time);
         StopAnimation(dialogue.anim);
-        ShowQuestion(dialogue.answerContents);
+        question.ShowQuestion(dialogue.answerContents, clickOvertime);
     }
 
     void PlayAnimation(string anim, float time)
@@ -98,7 +94,6 @@ public class Restaurant : MonoBehaviour
     IEnumerator DialogueOne()
     {
         successCallBack = DialogueTwo;
-        repeatEvaluate = true;
 
         float time = Audio.GetInstance().Play(AudioType.INTRO, "Restaurant/doforyou");
         PlayAnimation("Ask_1", time);
@@ -113,8 +108,9 @@ public class Restaurant : MonoBehaviour
         dialogueDragon.Find("Text").GetComponent<TextMesh>().text = "menu n.菜单 美 [ˈmɛnju, ˈmenju]";
         dialogueDragon.gameObject.SetActive(true);
         dialogueGuest.Find("InputHint").GetComponent<InputHint>().StartShow();
-        agent.StartEvaluator(ReceiveEvaluatorResult, "May I have a menu, please?");
-        question.Find("Panel/Skip").gameObject.SetActive(true);
+        skipTimes = 3;
+        agent.StartEvaluator(ReceiveEvaluatorResult, "May I have a menu, please?", evaluateOvertime);
+        question.transform.Find("Panel/Skip").gameObject.SetActive(true);
     }
 
     IEnumerator DialogueTwo()
@@ -127,7 +123,7 @@ public class Restaurant : MonoBehaviour
         dialogueWaiter.gameObject.SetActive(false);
         dialogueGuest.gameObject.SetActive(false);
         dialogueDragon.gameObject.SetActive(false);
-        ShowQuestion(new List<string>());
+        question.ShowQuestion(new List<string>(), 0f);
 
         yield return new WaitForSeconds(interval);
 
@@ -155,7 +151,7 @@ public class Restaurant : MonoBehaviour
 
         if (result.error == Error.NORMAL)
         {
-            question.Find("Panel/Skip").gameObject.SetActive(false);
+            question.transform.Find("Panel/Skip").gameObject.SetActive(false);
 
             float time = 0.5f;
 
@@ -185,24 +181,18 @@ public class Restaurant : MonoBehaviour
                 successCallBack = null;
             }
         }
-        else if (repeatEvaluate)
+        else
         {
-            agent.StartEvaluator(ReceiveEvaluatorResult, content);
-        }
-    }
-
-    void ShowQuestion(List<string> answerContents)
-    {
-        for (int i = 0; i < answers.Count; i++)
-        {
-            if (i < answerContents.Count)
-            {
-                answers[i].gameObject.SetActive(true);
-                answers[i].Find("Text").GetComponent<Text>().text = answerContents[i];
-            }
+            skipTimes -= 1;
+            if (skipTimes >= 0)
+                agent.StartEvaluator(ReceiveEvaluatorResult, content, evaluateOvertime);
             else
             {
-                answers[i].gameObject.SetActive(false);
+                if (successCallBack != null)
+                {
+                    StartCoroutine(StartCallBack(successCallBack));
+                    successCallBack = null;
+                }
             }
         }
     }
@@ -276,7 +266,7 @@ public class Restaurant : MonoBehaviour
     {
         if (content == "Skip")
         {
-            question.Find("Panel/Skip").gameObject.SetActive(false);
+            question.transform.Find("Panel/Skip").gameObject.SetActive(false);
             if (successCallBack != null)
             {
                 StartCoroutine(StartCallBack(successCallBack));
@@ -352,10 +342,10 @@ public class Restaurant : MonoBehaviour
 
         orderedFood = content;
 
-        repeatEvaluate = false;
         string evaContent = Regex.IsMatch(content, regularExpression) ? content : prefix + content;
-        agent.StartEvaluator(ReceiveEvaluatorResult, evaContent);
-        question.Find("Panel/Skip").gameObject.SetActive(true);
+        skipTimes = 3;
+        agent.StartEvaluator(ReceiveEvaluatorResult, evaContent, evaluateOvertime);
+        question.transform.Find("Panel/Skip").gameObject.SetActive(true);
 
         dialogueGuest.Find("Text").GetComponent<TextMesh>().text = evaContent;
         dialogueGuest.Find("Image").GetComponent<Sprites>().Show(content);

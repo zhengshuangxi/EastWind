@@ -8,6 +8,10 @@ public class Course : EventTriggerListener
     public override void Awake()
     {
         base.Awake();
+
+#if Release
+        transform.Find("Panel/Police").gameObject.SetActive(false);
+#endif
     }
 
     public override void OnClick()
@@ -15,11 +19,14 @@ public class Course : EventTriggerListener
         base.OnClick();
         switch (EventSystem.current.currentSelectedGameObject.name)
         {
-            case "Preview":
-                Preview(EventSystem.current.currentSelectedGameObject);
+            case "Restaurant":
+                Restaurant();
                 break;
-            case "Review":
-                Review(EventSystem.current.currentSelectedGameObject);
+            case "Market":
+                ShoppingMall();
+                break;
+            case "Police":
+                PoliceOffice();
                 break;
             case "Back":
                 Back();
@@ -32,11 +39,11 @@ public class Course : EventTriggerListener
     public void Preview(GameObject go)
     {
         Role.currentRole.isReview = false;
-        if(go.transform.parent.name== "Restaurant")
+        if (go.transform.parent.name == "Restaurant")
         {
             Restaurant();
         }
-        else if(go.transform.parent.name == "Shopping Mall")
+        else if (go.transform.parent.name == "Shopping Mall")
         {
             ShoppingMall();
         }
@@ -49,7 +56,7 @@ public class Course : EventTriggerListener
         if (go.transform.parent.name == "Restaurant")
         {
             Restaurant();
-            
+
         }
         else if (go.transform.parent.name == "Shopping Mall")
         {
@@ -69,11 +76,13 @@ public class Course : EventTriggerListener
         SceneManager.LoadScene("Loading");
     }
 
-    public static void Stroll()
+    public static void PoliceOffice()
     {
         //Loading.scene = "Stroll";
         //SceneManager.LoadScene("Loading");
         //Server.GetInstance().StartStudy(6);
+        Loading.scene = "PoliceOffice";
+        SceneManager.LoadScene("Loading");
     }
 
 

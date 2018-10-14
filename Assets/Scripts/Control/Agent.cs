@@ -12,6 +12,7 @@ public class Agent : Singleton<MonoBehaviour>
     private Action<string> evaluatorResult;
     private Action<string> recognizeResult;
     private Transform netWork; //android.os.Build.SERIAL
+    private string result;
 
     private void Awake()
     {
@@ -33,16 +34,22 @@ public class Agent : Singleton<MonoBehaviour>
         }
     }
 
-    public void StartRecognize(Action<string> recognizeResult)
+    public void StartRecognize(Action<string> recognizeResult, string result = "", float overTime = 5f)
     {
         Debug.Log("StartRecongnize:" + DateTime.Now.ToLongTimeString());
         this.recognizeResult = recognizeResult;
+        this.result = result;
 #if Release
         if (instance != null)
             instance.Call("StartRecognize");
 #else
-        RecognizeResult("Yes.");
+        Invoke("RecognizeResultCallBack", overTime);
 #endif
+    }
+
+    void RecognizeResultCallBack()
+    {
+        RecognizeResult(result);
     }
 
     public string GetDeviceSN()
@@ -98,7 +105,7 @@ public class Agent : Singleton<MonoBehaviour>
         return 100;
     }
 
-    public void StartEvaluator(Action<string> evaluatorResult, string text)
+    public void StartEvaluator(Action<string> evaluatorResult, string text, float overTime = 5f)
     {
         Debug.Log("StartEvaluator:" + DateTime.Now.ToLongTimeString() + text);
         this.evaluatorResult = evaluatorResult;
@@ -108,7 +115,7 @@ public class Agent : Singleton<MonoBehaviour>
             instance.Call("StartEvaluator", text);
         }
 #else
-        Invoke("EvaluatorResultCallBack", 2f);
+        Invoke("EvaluatorResultCallBack", overTime);
 #endif
     }
 
@@ -145,7 +152,10 @@ public class Agent : Singleton<MonoBehaviour>
     void RecognizeResult(string result)
     {
         if (recognizeResult != null)
+        {
             recognizeResult(result);
+            recognizeResult = null;
+        }
     }
 
     void EvaluatorVolumeChanged(string vol)
@@ -157,7 +167,10 @@ public class Agent : Singleton<MonoBehaviour>
     {
         Debug.Log("EvaluatorResult");
         if (evaluatorResult != null)
+        {
             evaluatorResult(result);
+            evaluatorResult = null;
+        }
     }
 
     public void StartRegister(string userName, string passWord, Action<string> rigistering, Action<string> rigisterSuccess)//password为声纹的文本
@@ -180,8 +193,10 @@ public class Agent : Singleton<MonoBehaviour>
 
     void NetworkUnavailable(string code)
     {
+#if Release
         netWork.gameObject.SetActive(true);
         Invoke("Close", 2f);
+#endif
     }
 
     void Close()

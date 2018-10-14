@@ -112,18 +112,18 @@ public class StudentLogin : Singleton<StudentLogin>
             {
                 Debug.Log("Course Start");
                 int courseId = ((CourseStart)protocol).lessionId;
-                if (courseId == 4)
+                if (courseId == 9)
                 {
-                    Course.Restaurant();
+                    Course.PoliceOffice();
                 }
-                else if (courseId == 5)
-                {
-                    Course.ShoppingMall();
-                }
-                else if (courseId == 6)
-                {
-                    Course.Stroll();
-                }
+                //else if (courseId == 5)
+                //{
+                //    Course.ShoppingMall();
+                //}
+                //else if (courseId == 6)
+                //{
+                //    Course.Stroll();
+                //}
             }
             else if (protocol.id == 3)
             {
