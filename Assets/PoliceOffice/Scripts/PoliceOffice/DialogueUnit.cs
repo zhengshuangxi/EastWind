@@ -28,6 +28,11 @@ public class DialogueUnit {
     {
 
     }
+
+    public virtual void ByFlow(Action<bool, string> singleEvent = null, Action<float, List<string>> callback = null)
+    {
+
+    }
 }
 
 public class OperateUnit : DialogueUnit
@@ -107,7 +112,7 @@ public class OperateUnit : DialogueUnit
     }
 
     /// <summary>
-    /// 
+    /// 刷新当前对话
     /// </summary>
     /// <param name="singleEvent"></param>
     /// <param name="callback">当前步骤完成的回调</param>
@@ -122,7 +127,8 @@ public class OperateUnit : DialogueUnit
         if (limit <= 0)
         {
             //超时提醒,关闭识别和评测
-            Debug.Log("超时提醒！");          
+            Debug.Log("超时提醒！");
+            GetRepose();
             float time = Audio.GetInstance().Play(AudioType.INTRO, "hint2");
             agent.StartCoroutine(WaitForSth(time, () => {
                 isOpen = false;
@@ -140,10 +146,16 @@ public class OperateUnit : DialogueUnit
                 if (Count < 3)
                 {
                     Count++;
+                    if (singleEvent != null)
+                        singleEvent(isHaveBubble, bubble);
                     agent.StartRecognize((text) =>
                     {
                         Debug.Log("识别结果:" + text);
-                        if (string.IsNullOrEmpty(text)) return;
+                        if (string.IsNullOrEmpty(text))
+                        {
+                            Audio.GetInstance().Play(AudioType.INTRO, "hint1");
+                            return;
+                        }
                         //if (singleEvent != null)
                         //    singleEvent();
                         string result = text.ToLower();
@@ -156,11 +168,12 @@ public class OperateUnit : DialogueUnit
                                 {
                                     ParseAnswer(callback, arr[i], result);
                                 }
-                                else if (result.Contains(arr[i]))
+                                else 
                                 {
-                                    //直接传过去当前分数 score
-                                    callback(score, letters);
-                                    break;
+                                    if (result.Contains(arr[i]))
+                                        callback(score, letters);//直接传过去当前分数 score
+                                    else if (!letters.Contains(arr[i]))
+                                        letters.Add(arr[i]);
                                 }
                             }
                         }
@@ -172,10 +185,11 @@ public class OperateUnit : DialogueUnit
                         {
                             if (result.Contains(answer))
                                 callback(score, letters);
+                            else if (!letters.Contains(answer))
+                                letters.Add(answer);
                         }
                     });
-                    if (singleEvent != null)
-                        singleEvent(isHaveBubble, bubble);
+                   
                 }
                 else//3次之后直接给过
                 {
@@ -186,12 +200,106 @@ public class OperateUnit : DialogueUnit
                         scores.Sort((p, q) => q.CompareTo(p));
                         currScore = scores[0];
                     }
-                    callback(currScore, letters);
-                    scores.Clear();
+                    callback(currScore, letters);                    
                     letters.Clear();
+                    scores.Clear();
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 按流程完成对话，无次数限制
+    /// </summary>
+    /// <param name="singleEvent"></param>
+    /// <param name="callback"></param>
+    public override void ByFlow(Action<bool, string> singleEvent = null, Action<float, List<string>> callback = null)
+    {
+        limit -= Time.deltaTime;
+        if (limit <= 0)
+        {
+            //直接进入下一步
+            callback(UnityEngine.Random.Range(0, score * 0.5f), letters);
+            letters.Clear();
+        }
+        else
+        {
+            if (!isOpen)
+            {
+               
+                agent.StartRecognize((text) => {
+                    Debug.Log("识别结果:" + text);
+                    if (string.IsNullOrEmpty(text))
+                        return;
+                    string result = text.ToLower();
+                    //if (answer.Contains("|"))
+                    //{
+                    //    string[] arr = answer.Split('|');
+                    //    for (int i = 0; i < arr.Length; i++)
+                    //    {
+                    //        if (arr[i].Contains("&"))
+                    //        {
+                    //            ParseAnswer(callback, arr[i], result);
+                    //        }
+                    //        else
+                    //        {
+                    //            if (result.Contains(arr[i]))
+                    //                callback(score, letters);//直接传过去当前分数 score
+                    //            else if (!letters.Contains(arr[i]))
+                    //                letters.Add(arr[i]);
+                    //        }
+                    //    }
+                    //}
+                    //else if (answer.Contains("&"))
+                    //{
+                    //    ParseAnswer(callback, answer, result);
+                    //}
+                    //else
+                    //{
+                    //    if (result.Contains(answer))
+                    //        callback(score, letters);
+                    //    else if (!letters.Contains(answer))
+                    //        letters.Add(answer);
+                    //}
+                    callback(score - UnityEngine.Random.Range(0, 5), letters);
+
+                }, answer, limit * UnityEngine.Random.Range(2, 5) * 0.1f);
+                if (singleEvent != null)
+                    singleEvent(isHaveBubble, bubble);
+                isOpen = true;
+            }
+        }
+    }
+
+    //没有检测到用户回答或者三次回答全错
+    private void GetRepose()
+    {
+        if (answer.Contains("|"))
+        {
+            string[] arr = answer.Split('|');
+            if (arr[0].Contains("&"))
+            {
+                string[] content = arr[0].Split('&');
+                for (int i = 0; i < content.Length; i++)
+                {
+                    if (!letters.Contains(content[i]))
+                        letters.Add(content[i]);
+                }
+            }
+            else if(!letters.Contains(arr[0]))
+                letters.Add(arr[0]);
+        }
+        else if (answer.Contains("&"))
+        {
+            string[] arr = answer.Split('&');
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (!letters.Contains(arr[i]))
+                    letters.Add(arr[i]);
+            }
+        }
+        else if (!letters.Contains(answer))
+                letters.Add(answer);
     }
 
     //解析传入的内容content
@@ -203,7 +311,8 @@ public class OperateUnit : DialogueUnit
         {
             if (!text.Contains(arr[i]))
             {
-                letters.Add(arr[i]);
+                if (!letters.Contains(arr[i]))
+                    letters.Add(arr[i]);
                 break;
             }
             sum++;

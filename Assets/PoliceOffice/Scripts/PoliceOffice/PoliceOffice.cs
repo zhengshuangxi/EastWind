@@ -36,6 +36,10 @@ public class PoliceOffice : MonoBehaviour {
     public GameObject quit;
     public GameObject summarize;
     private Text scoreText;
+    public GameObject clone;//显示错误点的item
+    private Transform content;
+    [Tooltip("按流程走无次数限制")]
+    public bool isFlow;
     void Start()
     {
         cam = GameObject.Find("Pvr_UnitySDK/Head").transform;
@@ -50,6 +54,7 @@ public class PoliceOffice : MonoBehaviour {
         ownerText = Global.FindChild<TextMesh>(dialogueOwner.transform, "OwnerText");
         dragon = Global.FindChild(hintObj.transform, "Object002");
         scoreText = Global.FindChild<Text>(transform, "ScoreText");
+        content = Global.FindChild<Transform>(summarize.transform, "Content");
     }
 
     Ray ray;
@@ -109,17 +114,21 @@ public class PoliceOffice : MonoBehaviour {
                     en.text = wallet.Hint;
                     StartCoroutine(WaitForDosth(interval, () =>
                     {
-                        policeAnim.Stop();
+                        if (policeAnim.IsPlaying(wallet.Anim))
+                            policeAnim.Stop();
                     }));
                 }
             }
             else if (currDialogue == queDialogue.Peek())
             {
+               
                 if (!currDialogue.IsDone)
                 {
                     //等待警察说话结束
                     interval -= Time.deltaTime;
                     if (interval <= 0)
+                    {
+#if Release
                         //开始刷新
                         currDialogue.Refresh(
                         (isHaveBubble, bubble) =>
@@ -150,8 +159,42 @@ public class PoliceOffice : MonoBehaviour {
                             }
                             totalScore += score;
                             list.AddRange(letters);
-                            Debug.Log("总得分:" + Mathf.Round(totalScore));
+                            //Debug.Log("总得分:" + Mathf.Round(totalScore));
                         });
+#else
+                        //按流程走
+                        currDialogue.ByFlow(
+                        (isHaveBubble, bubble) =>
+                        {
+                             policeAnim.Play("Write");
+                            if (isHaveBubble)
+                            {
+                                //显示气泡
+                                thinkingCloud.gameObject.SetActive(true);
+                                thinkingCloud.Play();
+                                GameObject bubbleObj = bubbles.Find(p => p.name.Equals(bubble));
+                                bubbleObj.SetActive(true);
+                            }
+                        },
+                        (score, letters) =>
+                        {
+                              //当前完成
+                            currDialogue.IsDone = true;
+                            isPrompt = false;
+                            //隐藏提示
+                            if (hintSprite.activeSelf)
+                                hintSprite.SetActive(false);
+                            if (thinkingCloud.gameObject.activeSelf)
+                            {
+                                thinkingCloud.gameObject.SetActive(false);
+                                GameObject bubbleObj = bubbles.Find(p => p.activeSelf);
+                                bubbleObj.SetActive(false);
+                            }
+                            totalScore += score;
+                        }
+                        );
+#endif
+                    }
                 }
                 else
                 {
@@ -165,10 +208,21 @@ public class PoliceOffice : MonoBehaviour {
             scoreText.text = "总分:" + Mathf.Round(totalScore).ToString();
             if (!summarize.activeSelf)
                 summarize.SetActive(true);
+            if (!error)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    GameObject obj = Instantiate(clone, content);
+                    Text textClone = Global.FindChild<Text>(obj.transform, "Text");
+                    textClone.text = list[i];
+                }
+                error = true;
+            }
         }
     }
 
     private bool init;
+    private bool error;
     //初始化对话队列
     private void InitQueDialogue()
     {
