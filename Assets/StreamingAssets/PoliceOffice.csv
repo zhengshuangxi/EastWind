@@ -1,25 +1,25 @@
-﻿wallet,Hello! Can I help you?,Yes. I can't find my wallet now!,Hallo,can i help you,I can't find my wallet,T,bubble_lost,15,12.5
+﻿wallet,Hello! Can I help you?,Yes. I can't find my wallet now!,Hallo,can i help you,wallet,T,bubble_lost,15,12.5
 wallet,I'm sorry to hear that. Let me help you. What's your name?,My name is.../I'm ...(你的名字),Ask,what's your name,name|I am|I'm,F,,10,12.5
-wallet,What's your address（地址）?,My address is.... /I live in ... Hotel now. （地址或酒店名字）,Ask,what's your address,address&the second Street&Santa Monica&Los Angeles|live&2nd Street&Santa Monica&Los Angeles,T,bubble_address,15,12.5
-wallet,We can call you if we find your wallet. What's your telephone number?,My phone number is...,Ask,what's your telephone number,seven&one&eight&two&one&zero&six&nine&five&eight|seven&one&eight&two&one&oh&six&nine&five&eight,T,bubble_number,15,12.5
-wallet,And when did you find your wallet lost?,When I finished shopping in the XX supermarket，I can’t find my wallet to pay.,Ask,and when did  you find your wallet lost,shopping&supermarket&pay,T,bubble_market,15,12.5
+wallet,What's your address（地址）?,My address is.... /I live in ... Hotel now. （地址或酒店名字）,Ask,what's your address,address|the second Street|Santa Monica|Los Angeles|live,T,bubble_address,15,12.5
+wallet,We can call you if we find your wallet. What's your telephone number?,My phone number is...,Ask,what's your telephone number,seven|one|eight|two|one|zero|six|nine|five|eight|oh|ou,T,bubble_number,15,12.5
+wallet,And when did you find your wallet lost?,When I finished shopping in the XX supermarket，I can’t find my wallet to pay.,Ask,and when did  you find your wallet lost,shopping|supermarket|pay,T,bubble_market,15,12.5
 wallet,What does your wallet look like?,It's a black/long one.,Ask,what does your wallet look like,black|long,T,bubble_wallet,15,12.5
-wallet,And what is in your wallet?,There is a picture of my family and 300 dollars.,Ask,and what is in your wallet,picture&family&three hundred&dollars,T,bubble_content,15,12.5
+wallet,And what is in your wallet?,There is a picture of my family and 300 dollars.,Ask,and what is in your wallet,picture|family|three hundred|dollars,T,bubble_content,15,12.5
 wallet,OK.We'll try our best to help you find your wallet. We will contact you as soon as possible. Just wait!,Thank you. /Thank you very much.,Ask,just wait,thank|thanks,F,,10,12.5
-bag,Hello! Can I help you?,Yes. My bag was robbed just now!,Hallo,can i help you,bag&was robbed,T,bubble_robbed,15,11
+bag,Hello! Can I help you?,Yes. My bag was robbed just now!,Hallo,can i help you,bag|was robbed,T,bubble_robbed,15,11
 bag,Don't worry. Please calm down. I will help you. Can you tell me clearly?,OK!/Yes!/....,Ask,can you tell me clearly,ok|yes,T,bubble_ok,10,11
 bag,Can I have your name?,My name is..../I'm....,Ask,can I have your name,name|I am|I'm,F,,10,11
-bag,What's your address?,My address is..../I live in....Hotel now. （地址或酒店名字）,Ask,what's your address,address&the second Street&Santa Monica&Los Angeles|live&2nd Street&Santa Monica&Los Angeles,T,bubble_address,15,11
-bag,What's your telephone number? We can call you if we find your bag.,My phone number is...,Ask,we can call you,seven&one&eight&two&one&zero&six&nine&five&eight|seven&one&eight&two&one&oh&six&nine&five&eight,T,bubble_number,15,11
-bag,Now，please tell me what happen?,When I was walking in the street / shop /.... ， a man was robbed my bag and ran away.,Ask,what happen,street&man&was robbed&bag&ran,T,bubble_remember,15,11
-bag,Do you remember what the robber looks like?,He is a man. He is about 20 years old. He is tall and thin. His hair is black and brown. It's very long，over his ears.,Ask,do you remember,twenty&man&tall&thin&black&brown&hair&long,T,bubble_robber,15,11
-bag,What is he wearing?,He is wearing a white T-shirt with red letters on it. He is wearing a pair of blue jeans. He is wearing black shoes.,Ask,what is he wearing,white T-shirt&red letters&blue jeans&black shoes|white t shirt&red letters&blue jeans&black shoes,T,bubble_robberWear,15,11
+bag,What's your address?,My address is..../I live in....Hotel now. （地址或酒店名字）,Ask,what's your address,address|the second Street|Santa Monica|Los Angeles|live,T,bubble_address,15,11
+bag,What's your telephone number? We can call you if we find your bag.,My phone number is...,Ask,we can call you,seven|one|eight|two|one|zero|six|nine|five|eight|oh|ou,T,bubble_number,15,11
+bag,Now，please tell me what happen?,When I was walking in the street / shop /.... ， a man was robbed my bag and ran away.,Ask,what happen,street|man|was robbed|bag|ran,T,bubble_remember,15,11
+bag,Do you remember what the robber looks like?,He is a man. He is about 20 years old. He is tall and thin. His hair is black and brown. It's very long，over his ears.,Ask,do you remember,twenty|man|tall|thin|black|brown|hair|long,T,bubble_robber,15,11
+bag,What is he wearing?,He is wearing a white T-shirt with red letters on it. He is wearing a pair of blue jeans. He is wearing black shoes.,Ask,what is he wearing,white T-shirt|red letters|blue jeans|black shoes|white t shirt,T,bubble_robberWear,15,11
 bag,OK. We've got the whole process. We will contact you as soon as possible. Just wait!,Thank you. / Thank you very much.,Ask,we've got the whole process,thank|thanks,F,,10,11
-passport,Hello! Can I help you?,Yes. I can't find my passport now!,Ask,can i help you,find&passport,T,bubble_passport,15,12.5
+passport,Hello! Can I help you?,Yes. I can't find my passport now!,Ask,can i help you,find|passport,T,bubble_passport,15,12.5
 passport,Don't worry. Please calm down. I will help you. Can you tell me your specific information?,OK!/Yes!/…,Ask,don't worry,ok|yes,T,bubble_ok,10,12.5
 passport,What's your name?,My name is … / I'm …,Ask,what's your name,name|I am|I'm,F,,10,12.5
-passport,What's your address?,My address is.... /I live in...Hotel now. （地址或酒店名字）,Ask,what's your address,address&the second Street&Santa Monica&Los Angeles|live&2nd Street&Santa Monica&Los Angeles,T,bubble_address,15,12.5
-passport,What's your telephone number? We can call you if we find your passport.,My phone number is...,Ask,find your passport,seven&one&eight&two&one&zero&six&nine&five&eight|seven&one&eight&two&one&oh&six&nine&five&eight,T,bubble_number,15,12.5
-passport,Now，please tell me where you lost your passport?,I was shopping in the mall. When I wanted to get my tax refund，I couldn't find my passport.,Ask,where you lost your passport,shopping&supermarket&mall&tax&refund&passport,T,bubble_center,15,12.5
-passport,Do you remember when and where you saw your passport？,When I have meals in the restaurant，it was in my bag,Ask,when and where you saw your passport,restaurant&bag,T,bubble_inBag,15,12.5
+passport,What's your address?,My address is.... /I live in...Hotel now. （地址或酒店名字）,Ask,what's your address,address|the second Street|Santa Monica|Los Angeles|live,T,bubble_address,15,12.5
+passport,What's your telephone number? We can call you if we find your passport.,My phone number is...,Ask,find your passport,seven|one|eight|two|one|zero|six|nine|five|eight|oh|ou,T,bubble_number,15,12.5
+passport,Now，please tell me where you lost your passport?,I was shopping in the mall. When I wanted to get my tax refund，I couldn't find my passport.,Ask,where you lost your passport,shopping|supermarket|mall|tax|refund|passport,T,bubble_center,15,12.5
+passport,Do you remember when and where you saw your passport？,When I have meals in the restaurant，it was in my bag,Ask,when and where you saw your passport,restaurant|bag,T,bubble_inBag,15,12.5
 passport,OK. We'll try our best to help you find your passport. We will contact you as soon as possible. Just wait!,Thank you. / Thank you very much.,Ask,help you find your passport,thank|thanks,F,,10,12.5

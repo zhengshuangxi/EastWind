@@ -10,9 +10,7 @@ public class PoliceOffice : MonoBehaviour {
     private Transform cam;
     private string currChoose;//当前选择的物品
     private List<string> goods = new List<string> { "Wallet", "Passport", "Bag" };
-    private GameObject choose;
     public GameObject policeOffice_Prefab;
-    public GameObject policeStation_Prefab;
     public GameObject dialoguePolice;
     public GameObject dialogueOwner;
     private GameObject hintObj;//提示物体
@@ -38,16 +36,13 @@ public class PoliceOffice : MonoBehaviour {
     private Text scoreText;
     public GameObject clone;//显示错误点的item
     private Transform content;
-    [Tooltip("按流程走无次数限制")]
-    public bool isFlow;
     void Start()
     {
         cam = GameObject.Find("Pvr_UnitySDK/Head").transform;
-        choose = Global.FindChild(transform, "Choose");
         hintObj = GameObject.Find("Hint");
         hintSprite = Global.FindChild(hintObj.transform, "hint");
         en = Global.FindChild<Text>(hintObj.transform, "en");
-        hintObj.SetActive(false);
+        //hintObj.SetActive(false);
         policeAnim = Global.FindChild<Animation>(policeOffice_Prefab.transform, "Policeman_Animations");
         agent = GameObject.Find("Agent").GetComponent<Agent>();
         policeText = Global.FindChild<Text>(dialoguePolice.transform, "PoliceText");
@@ -55,6 +50,8 @@ public class PoliceOffice : MonoBehaviour {
         dragon = Global.FindChild(hintObj.transform, "Object002");
         scoreText = Global.FindChild<Text>(transform, "ScoreText");
         content = Global.FindChild<Transform>(summarize.transform, "Content");
+        currChoose = PlayerPrefs.GetString("currChoose");
+        InitQueDialogue();
     }
 
     Ray ray;
@@ -70,27 +67,14 @@ public class PoliceOffice : MonoBehaviour {
             {
                 if (hit.collider != null)
                 {
-                    if (goods.Contains(hit.collider.name))
-                    {
-                        queDialogue.Clear();
-                        //隐藏当前场景显示警局内
-                        currChoose = hit.collider.name.ToLower();
-                        choose.SetActive(false);
-                        policeStation_Prefab.SetActive(false);
-                        policeOffice_Prefab.SetActive(true);
-                        //显示小恐龙以及UI提示
-                        hintObj.SetActive(true);
-                        //初始化对话队列 queDialogue
-                        InitQueDialogue();
-                    }
-                    else if (hit.collider.gameObject == dragon)
+                   if (hit.collider.gameObject == dragon)
                     {
                         isPrompt = !isPrompt;
                         hintSprite.SetActive(isPrompt);
                     }
                     else if (hit.collider.gameObject == reload)
                     {
-                        SceneManager.LoadScene("PoliceOffice");
+                        SceneManager.LoadScene("PoliceStation");
                     }
                     else if (hit.collider.gameObject == quit)
                         Application.Quit();
@@ -205,7 +189,7 @@ public class PoliceOffice : MonoBehaviour {
         }
         else if (queDialogue.Count == 0 && init)
         {
-            scoreText.text = "总分:" + Mathf.Round(totalScore).ToString();
+            scoreText.text = "Score:" + Mathf.Round(totalScore).ToString();
             if (!summarize.activeSelf)
                 summarize.SetActive(true);
             if (!error)

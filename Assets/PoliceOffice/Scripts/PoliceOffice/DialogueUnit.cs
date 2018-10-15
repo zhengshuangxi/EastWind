@@ -171,7 +171,10 @@ public class OperateUnit : DialogueUnit
                                 else 
                                 {
                                     if (result.Contains(arr[i]))
+                                    {
                                         callback(score, letters);//直接传过去当前分数 score
+                                        break;
+                                    }
                                     else if (!letters.Contains(arr[i]))
                                         letters.Add(arr[i]);
                                 }
