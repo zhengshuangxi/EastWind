@@ -9,9 +9,9 @@ public class Course : EventTriggerListener
     {
         base.Awake();
 
-#if Release
-        transform.Find("Panel/Police").gameObject.SetActive(false);
-#endif
+//#if Release
+//        transform.Find("Panel/Police").gameObject.SetActive(false);
+//#endif
     }
 
     public override void OnClick()

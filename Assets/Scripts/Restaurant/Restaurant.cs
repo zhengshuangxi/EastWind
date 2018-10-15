@@ -16,6 +16,7 @@ public class Restaurant : MonoBehaviour
     public Transform dialogueGuest;
     public Transform dialogueDragon;
     public Question question;
+    public Record record;
     public Transform ordered;
 
     Transform cam;
@@ -31,11 +32,17 @@ public class Restaurant : MonoBehaviour
     private float evaluateOvertime = 5f;
     private int skipTimes = 3;
 
+    private float totalScore = 0;
+    private int times = 0;
+
+    string evaContent;
+
     void Awake()
     {
         cam = GameObject.Find("Pvr_UnitySDK/Head").transform;
         agent = GameObject.Find("Agent").GetComponent<Agent>();
         question.GetComponent<Question>().SetCallBack(ClickCallBack);
+        record.gameObject.SetActive(false);
 
         question.transform.Find("Panel/Skip").gameObject.SetActive(false);
 
@@ -109,7 +116,8 @@ public class Restaurant : MonoBehaviour
         dialogueDragon.gameObject.SetActive(true);
         dialogueGuest.Find("InputHint").GetComponent<InputHint>().StartShow();
         skipTimes = 3;
-        agent.StartEvaluator(ReceiveEvaluatorResult, "May I have a menu, please?", evaluateOvertime);
+        evaContent = "May I have a menu, please?";
+        agent.StartEvaluator(ReceiveEvaluatorResult, evaContent, evaluateOvertime);
         question.transform.Find("Panel/Skip").gameObject.SetActive(true);
     }
 
@@ -134,8 +142,12 @@ public class Restaurant : MonoBehaviour
         yield return new WaitForSeconds(time);
         StopAnimation("OK");
 
-        Loading.scene = "Main";
-        SceneManager.LoadScene("Loading");
+        //Loading.scene = "Main";
+        //SceneManager.LoadScene("Loading");
+        dialogueGuest.gameObject.SetActive(false);
+        dialogueWaiter.gameObject.SetActive(false);
+        question.gameObject.SetActive(false);
+        record.Display(totalScore / times);
     }
 
     IEnumerator StartCallBack(CallBack callBack)
@@ -151,6 +163,9 @@ public class Restaurant : MonoBehaviour
 
         if (result.error == Error.NORMAL)
         {
+            totalScore += result.score.total;
+            times += 1;
+
             question.transform.Find("Panel/Skip").gameObject.SetActive(false);
 
             float time = 0.5f;
@@ -185,7 +200,10 @@ public class Restaurant : MonoBehaviour
         {
             skipTimes -= 1;
             if (skipTimes >= 0)
-                agent.StartEvaluator(ReceiveEvaluatorResult, content, evaluateOvertime);
+            {
+                //agent.StartEvaluator(ReceiveEvaluatorResult, content, evaluateOvertime);
+                StartCoroutine(StartShowHint(content));
+            }
             else
             {
                 if (successCallBack != null)
@@ -195,6 +213,21 @@ public class Restaurant : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator StartShowHint(string content)
+    {
+        yield return StartCoroutine(ShowHint(content));
+    }
+
+    IEnumerator ShowHint(string content)
+    {
+        float hintTime = Audio.GetInstance().Play(AudioType.INTRO, Prompt.Get().Audio);
+        yield return new WaitForSeconds(hintTime);
+        yield return new WaitForSeconds(0.5f);
+        dialogueGuest.Find("InputHint").GetComponent<InputHint>().StartShow();
+        agent.StartEvaluator(ReceiveEvaluatorResult, evaContent, evaluateOvertime);
+        question.transform.Find("Panel/Skip").gameObject.SetActive(true);
     }
 
     IEnumerator DialogueSalad()
@@ -342,7 +375,7 @@ public class Restaurant : MonoBehaviour
 
         orderedFood = content;
 
-        string evaContent = Regex.IsMatch(content, regularExpression) ? content : prefix + content;
+        evaContent = Regex.IsMatch(content, regularExpression) ? content : prefix + content;
         skipTimes = 3;
         agent.StartEvaluator(ReceiveEvaluatorResult, evaContent, evaluateOvertime);
         question.transform.Find("Panel/Skip").gameObject.SetActive(true);
