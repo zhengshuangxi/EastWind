@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Util.UI;
 
 public class Record : EventTriggerListener
@@ -25,6 +26,7 @@ public class Record : EventTriggerListener
 
     public void Display(float score)
     {
+        transform.Find("Panel/Score").GetComponent<Text>().text = score.ToString("N2");
         Transform star = transform.Find("Panel/Star");
 
         for (int j = 1; j < 5; j++)
