@@ -51,6 +51,10 @@ public class PoliceOffice : MonoBehaviour {
         scoreText = Global.FindChild<Text>(transform, "ScoreText");
         content = Global.FindChild<Transform>(summarize.transform, "Content");
         currChoose = PlayerPrefs.GetString("currChoose");
+
+        //StartCoroutine(WaitForDosth(15, () => {
+            
+        //}));
         InitQueDialogue();
     }
 
