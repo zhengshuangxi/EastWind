@@ -266,7 +266,7 @@ public class OperateUnit : DialogueUnit
                     //}
                     callback(score - UnityEngine.Random.Range(0, 5), letters);
 
-                }, answer, limit * UnityEngine.Random.Range(2, 5) * 0.1f);
+                }, answer, limit);/** UnityEngine.Random.Range(5, 9) * 0.1f*/
                 if (singleEvent != null)
                     singleEvent(isHaveBubble, bubble);
                 isOpen = true;
