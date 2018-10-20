@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class FileHelper {
 
-    private static string filePath =
+    public static string filePath =
 #if UNITY_ANDROID && !UNITY_EDITOR
                      "jar:file://" + Application.dataPath + "!/assets/" + "PoliceOffice.csv";  
 #elif UNITY_IPHONE && !UNITY_EDITOR
@@ -30,9 +30,9 @@ public class FileHelper {
 //#endif
 //    }
 
-    public static IEnumerator Load(Action<string> callback = null, Action Oncomplete = null)
+    public static IEnumerator Load(string path, Action<string> callback = null, Action Oncomplete = null)
     {
-        WWW www = new WWW(filePath);
+        WWW www = new WWW(path);
         yield return www;
         if (www.error != null)
         {

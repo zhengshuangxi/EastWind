@@ -132,7 +132,7 @@ public class PoliceOffice : MonoBehaviour {
                                 bubbleObj.SetActive(true);
                             }
                         },
-                        (score, letters) =>
+                        (args) =>
                         {
                             //当前完成
                             currDialogue.IsDone = true;
@@ -146,8 +146,8 @@ public class PoliceOffice : MonoBehaviour {
                                 GameObject bubbleObj = bubbles.Find(p => p.activeSelf);
                                 bubbleObj.SetActive(false);
                             }
-                            totalScore += score;
-                            list.AddRange(letters);
+                            totalScore += (float)args[0];
+                            list.AddRange((List<string>)args[1]);
                             //Debug.Log("总得分:" + Mathf.Round(totalScore));
                         });
 #else
@@ -165,7 +165,7 @@ public class PoliceOffice : MonoBehaviour {
                                 bubbleObj.SetActive(true);
                             }
                         },
-                        (score, letters) =>
+                        (args) =>
                         {
                               //当前完成
                             currDialogue.IsDone = true;
@@ -179,7 +179,7 @@ public class PoliceOffice : MonoBehaviour {
                                 GameObject bubbleObj = bubbles.Find(p => p.activeSelf);
                                 bubbleObj.SetActive(false);
                             }
-                            totalScore += score;
+                            totalScore += (float)args[0];
                         }
                         );
 #endif
@@ -217,7 +217,7 @@ public class PoliceOffice : MonoBehaviour {
     {
         totalScore = 0;//总分归0
         list = new List<string>();
-        StartCoroutine(FileHelper.Load((content) => {
+        StartCoroutine(FileHelper.Load(FileHelper.filePath, (content) => {
             if (content.StartsWith(currChoose))
             {
                 DialogueUnit unit = new OperateUnit(agent, content);

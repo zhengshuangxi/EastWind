@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public delegate void Handler(params object[] args);
 /// <summary>
 /// 对话单元
 /// </summary>
@@ -24,12 +25,12 @@ public class DialogueUnit {
         set { count = value; }
     }
 
-    public virtual void Refresh(Action<bool, string> singleEvent = null, Action<float, List<string>> callback = null)
+    public virtual void Refresh(Action<bool, string> singleEvent = null, Handler callback = null)
     {
 
     }
 
-    public virtual void ByFlow(Action<bool, string> singleEvent = null, Action<float, List<string>> callback = null)
+    public virtual void ByFlow(Action<bool, string> singleEvent = null, Handler callback = null)
     {
 
     }
@@ -65,6 +66,8 @@ public class OperateUnit : DialogueUnit
 
     private List<float> scores = new List<float>();
     private List<string> letters = new List<string>();
+
+    
 
     public OperateUnit()
     {
@@ -116,7 +119,7 @@ public class OperateUnit : DialogueUnit
     /// </summary>
     /// <param name="singleEvent"></param>
     /// <param name="callback">当前步骤完成的回调</param>
-    public override void Refresh(Action<bool, string> singleEvent = null, Action<float, List<string>> callback = null)
+    public override void Refresh(Action<bool, string> singleEvent = null, Handler callback = null)
     {
         if (limit == -1)
         {
@@ -216,7 +219,7 @@ public class OperateUnit : DialogueUnit
     /// </summary>
     /// <param name="singleEvent"></param>
     /// <param name="callback"></param>
-    public override void ByFlow(Action<bool, string> singleEvent = null, Action<float, List<string>> callback = null)
+    public override void ByFlow(Action<bool, string> singleEvent = null, Handler callback = null)
     {
         limit -= Time.deltaTime;
         if (limit <= 0)
@@ -306,7 +309,7 @@ public class OperateUnit : DialogueUnit
     }
 
     //解析传入的内容content
-    private void ParseAnswer(Action<float, List<string>> callback, string content, string text)
+    private void ParseAnswer(Handler callback, string content, string text)
     {
         string[] arr = content.Split('&');
         int sum = 0;
